@@ -8,7 +8,9 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
+import MessagesAndModels exposing (..)
 import Sudoku exposing (..)
+import SudokuVisualComponents exposing (..)
 
 
 main =
@@ -19,20 +21,23 @@ main =
         }
 
 
-type Msg
-    = SomeKindOfUpdate
-
-
-type alias Model =
-    { myString : String
-    , aPuzzle : Puzzle
-    }
+myPuzzle : Puzzle
+myPuzzle =
+    [ [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+    , [ 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+    , [ 18, 19, 20, 21, 22, 23, 24, 25, 26 ]
+    , [ 27, 28, 29, 30, 31, 32, 33, 34, 35 ]
+    , [ 36, 37, 38, 39, 40, 41, 42, 43, 44 ]
+    , [ 45, 46, 47, 48, 49, 50, 51, 52, 53 ]
+    , [ 54, 55, 56, 57, 58, 59, 60, 61, 62 ]
+    , [ 63, 64, 65, 66, 67, 68, 69, 70, 71 ]
+    , [ 72, 73, 74, 75, 76, 77, 78, 79, 80 ]
+    ]
 
 
 init : Model
 init =
-    { myString = "Hello, world!"
-    , aPuzzle = aPuzzle
+    { puzzle = myPuzzle
     }
 
 
@@ -41,26 +46,28 @@ update msg model =
     model
 
 
-
---map sqrt (fromList [1,4,9])
-
-
 view : Model -> Html.Html Msg
 view model =
     Element.layout []
         (Element.column
-            []
-            [ Element.el [] (text "Yep")
-            , Element.el [] (text model.myString)
-            , Element.el [] (text <| String.fromInt <| getAnElement model.aPuzzle 4 6)
-            , Element.el [] (text <| "Column " ++ String.fromInt 3 ++ ": ")
-            , Element.el [] (text <| lstIntTolstString <| getColumn model.aPuzzle 6)
-            , Element.el [] (text <| "Row " ++ String.fromInt 4 ++ ": ")
-            , Element.el [] (text <| lstIntTolstString <| getRow model.aPuzzle 4)
+            [ centerX
+            , spacing 20
+            , padding 100
+            ]
+            [ Element.el
+                [ Font.size 40
+                , centerX
+                , Font.bold
+                ]
+                (text "Sudoku Solver")
+            , puzzleToUi model.puzzle
+            , Element.el
+                [ Background.color <| rgb255 225 225 225
+                , centerX
+                ]
+              <|
+                Element.el
+                    [ padding 15 ]
+                    (text "Click here to solve!")
             ]
         )
-
-
-lstIntTolstString : List Int -> String
-lstIntTolstString listOfInts =
-    String.join ", " <| List.map String.fromInt listOfInts
